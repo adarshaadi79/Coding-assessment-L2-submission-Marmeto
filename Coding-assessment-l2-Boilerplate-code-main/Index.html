@@ -1,0 +1,159 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Product Page</title>
+    <link rel="stylesheet" href="./style.css">
+</head>
+<body>
+    <div class="container">
+        <div class="product">
+            <div class="product-image">
+                <img id="mainImage" src="p1.jpg" alt="P1">
+                <div class="thumbnail-images">
+                    <img src="p1.jpg" alt="p1" onclick="changeImage(this.src)">
+                    <img src="p2.jpg" alt="p2" onclick="changeImage(this.src)">
+                    <img src="p3.jpg" alt="p3" onclick="changeImage(this.src)">
+                    <img src="p4.jpg" alt="p3" onclick="changeImage(this.src)">
+                    <img src="p5.jpg" alt="p3" onclick="changeImage(this.src)">
+                </div>
+            </div>
+            <div class="product-details">
+                <h4 class="side">Marmeto</h4>
+                <h2>Embrace Sideboard</h2>
+                <p class="price">$12999.00</p>
+                <p class="compare-at-price">$19999.00</p>
+                <p class="percentage-off" id="percentageOff"></p>
+                <h4>Choose a Color</h3>
+                <div class="color-selector">
+                    <div class="color-option" data-color="red">
+                        <i class="icon" style="background-color: red;"></i>
+                        <span>Red</span>
+                    </div>
+                    <div class="color-option" data-color="green">
+                        <i class="icon" style="background-color: green;"></i>
+                        <span>Green</span>
+                    </div>
+                    <div class="color-option" data-color="blue">
+                        <i class="icon" style="background-color: blue;"></i>
+                        <span>Blue</span>
+                    </div>
+                    <div class="color-option" data-color="blue">
+                        <i class="icon" style="background-color: rgb(217, 255, 0);"></i>
+                        <span>Yellow</span>
+                    </div>
+                </div>
+                <h4>Choose a Size</h4>
+                 <div class="size-selector">
+        <button class="size-option" data-size="small">Small</button>
+        <button class="size-option" data-size="medium">Medium</button>
+        <button class="size-option" data-size="large">Large</button>
+        <button class="size-option" data-size="large">XL</button>
+    </div>
+                   
+                <div class="selector">
+                    <label for="quantity">Quantity:</label>
+                    <input type="number" id="quantity" class="quantity" value="1" min="1">
+                </div>
+                <button class="add-to-cart-btn" onclick="addToCart()">Add to Cart</button>
+                <div class="cart-message" id="cartMessage">
+                    <p>Product added to cart!</p>
+                    <p id="cartDetails"></p>
+                </div>
+                
+                <div class="description">
+                    <h3>Description</h3>
+                    <p><p>The Embrace Sideboard is a stylish wear. With a top cloth designed to provide superior protection and look great,
+                        this storage solution is both functional and attractive. It fits seamlessly into any home decor, 
+                        with clean lines and a timeless look. Crafted from premium materials for a combination of style,
+                        durability, and reliability.</p>
+                    </div></p>
+                </div>
+            </div>
+        </div>
+    </div>
+    <script>
+        function changeImage(src) {
+            document.getElementById('mainImage').src = src;
+        }
+
+        function calculatePercentageOff() {
+            const price = 150;
+            const compareAtPrice = 199;
+            const percentageOff = ((compareAtPrice - price) / compareAtPrice) * 100;
+            document.getElementById('percentageOff').innerText = `${percentageOff.toFixed(2)}% off`;
+        }
+
+        function saveVariant() {
+            const color = document.getElementById('color').value;
+            const size = document.getElementById('size').value;
+            const quantity = document.getElementById('quantity').value;
+            localStorage.setItem('selectedVariant', JSON.stringify({ color, size, quantity }));
+        }
+
+        function addToCart() {
+            const selectedVariant = JSON.parse(localStorage.getItem('selectedVariant'));
+            if (!selectedVariant) {
+                alert('Please select color, size, and quantity.');
+                return;
+            }
+
+            const cartMessage = document.getElementById('cartMessage');
+            const cartDetails = document.getElementById('cartDetails');
+            cartDetails.innerText = `Color: ${selectedVariant.color}, Size: ${selectedVariant.size}, Quantity: ${selectedVariant.quantity}`;
+            cartMessage.style.display = 'block';
+        }
+        document.addEventListener('DOMContentLoaded', () => {
+    const colorOptions = document.querySelectorAll('.color-option');
+
+    colorOptions.forEach(option => {
+        option.addEventListener('click', () => {
+            colorOptions.forEach(opt => opt.classList.remove('selected'));
+            option.classList.add('selected');
+
+            const selectedColor = option.getAttribute('data-color');
+            console.log('Selected color:', selectedColor);
+            // You can add more functionality here based on the selected color
+        });
+    });
+});
+
+document.addEventListener('DOMContentLoaded', () => {
+    const sizeOptions = document.querySelectorAll('.size-option');
+
+    sizeOptions.forEach(option => {
+        option.addEventListener('click', () => {
+            sizeOptions.forEach(opt => opt.classList.remove('selected'));
+            option.classList.add('selected');
+
+            const selectedSize = option.getAttribute('data-size');
+            console.log('Selected size:', selectedSize);
+            // You can add more functionality here based on the selected size
+        });
+    });
+});
+document.addEventListener('DOMContentLoaded', () => {
+    const sizeOptions = document.querySelectorAll('.size-option');
+
+    sizeOptions.forEach(option => {
+        option.addEventListener('click', () => {
+            sizeOptions.forEach(opt => opt.classList.remove('selected'));
+            option.classList.add('selected');
+
+            const selectedSize = option.getAttribute('data-size');
+            console.log('Selected size:', selectedSize);
+            // You can add more functionality here based on the selected size
+        });
+    });
+});
+
+
+        // Calculate percentage off on page load
+        calculatePercentageOff();
+
+        // Save default variant on page load
+        saveVariant();
+    </script>
+</body>
+</html>
